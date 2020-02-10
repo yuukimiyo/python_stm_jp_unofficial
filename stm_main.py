@@ -52,7 +52,7 @@ def main():
     # for original stopwords file.
     selected_stopwords_list = []
     if options.stopwordsfile:
-        with open(options.stopwordfile, "r") as f:
+        with open(options.stopwordsfile, "r") as f:
             selected_stopwords_list = [s.strip() for s in f.readlines()]
 
     print("proc voca")
