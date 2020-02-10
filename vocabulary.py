@@ -12,6 +12,13 @@ recover_list = {"wa":"was", "ha":"has"}
 wl = nltk.WordNetLemmatizer()
 
 
+def load_stopwords(stopwords_file):
+    selected_stopwords_list = []
+    with open(stopwords_file, "r") as f:
+        selected_stopwords_list = [s.strip() for s in f.readlines()]
+    return selected_stopwords_list
+
+
 def load_corpus(ranges):
     """
     load data from corpus
@@ -70,11 +77,20 @@ def lemmatize(w0):
 
 
 class Vocabulary:
-    def __init__(self, excluds_stopwords=False):
+    def __init__(self, excluds_stopwords=False, stopwords_file=''):
         self.vocas = []         # id to word
         self.vocas_id = dict()  # word to id
         self.docfreq = []       # id to document frequency
         self.excluds_stopwords = excluds_stopwords
+
+        # for original stopwords file.
+        selected_stopwords_list = []
+        if len(stopwords_file) > 0:
+            with open(stopwords_file, "r") as f:
+                selected_stopwords_list = [s.strip() for s in f.readlines()]
+
+        if len(selected_stopwords_list) > 0:
+            stopwords_list = selected_stopwords_list
 
     def term_to_id(self, term0):
         term = lemmatize(term0)

@@ -24,6 +24,7 @@ def main():
     parser.add_argument("--sigma", dest="sigma", help="Initial value of sigma diagonals(default=0.1)", default=0.1)
     parser.add_argument("--stopwords", dest="stopwords", help="Exclude stop words by using corpus from nltk",
                         action="store_true", default=False)
+    parser.add_argument("--stopwordsfile", dest="stopwordsfile", help="text lines for stop words")
     parser.add_argument("--seed", dest="seed", type=int, help="Random seed")
     parser.add_argument("--df", dest="df", type=int, help="Threshold of document freaquency to cut words", default=0)
     parser.add_argument("--interact", dest="interact", action="store_true",
@@ -48,8 +49,14 @@ def main():
     if options.seed is not None:
         np.random.seed(options.seed)
 
+    # for original stopwords file.
+    selected_stopwords_list = []
+    if options.stopwordfile:
+        with open(options.stopwordfile, "r") as f:
+            selected_stopwords_list = [s.strip() for s in f.readlines()]
+
     print("proc voca")
-    voca = vocabulary.Vocabulary(options.stopwords)
+    voca = vocabulary.Vocabulary(options.stopwords, options.stopwordsfile)
     docs = [voca.doc_to_ids(doc) for doc in corpus]
 
     # process prevarence, if it is pointed
