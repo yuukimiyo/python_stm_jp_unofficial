@@ -90,11 +90,16 @@ class Vocabulary:
                 selected_stopwords_list = [s.strip() for s in f.readlines()]
 
         if len(selected_stopwords_list) > 0:
-            stopwords_list = selected_stopwords_list
+            self.stopwords_list = selected_stopwords_list
+        else:
+            self.stopwords_list = stopwords_list
+
+    def is_stopword(self, w):
+        return w in self.stopwords_list
 
     def term_to_id(self, term0):
         term = lemmatize(term0)
-        if self.excluds_stopwords and is_stopword(term):
+        if self.excluds_stopwords and self.is_stopword(term):
             return None
         if term not in self.vocas_id:
             voca_id = len(self.vocas)
@@ -149,4 +154,4 @@ class Vocabulary:
         return len(self.vocas)
 
     def is_stopword_id(self, id):
-        return self.vocas[id] in stopwords_list
+        return self.vocas[id] in self.stopwords_list
