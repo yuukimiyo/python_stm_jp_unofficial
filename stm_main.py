@@ -51,7 +51,7 @@ def main():
 
     # for original stopwords file.
     selected_stopwords_list = []
-    if options.stopwordfile:
+    if options.stopwordsfile:
         with open(options.stopwordfile, "r") as f:
             selected_stopwords_list = [s.strip() for s in f.readlines()]
 
